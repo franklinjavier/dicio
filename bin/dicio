@@ -19,12 +19,16 @@ request('http://dicio.com.br/' + args[2], {timeout: 20000, encoding: 'binary'} ,
 
     errorHandling( err );
 
-    var re = /class="textolongo">/,
-        text, 
-        content;
+    var definition = /="textolongo">/,
+        didYouMean = /="enchant">/,
+        text, content;
 
-    if (!re.test(body)) {
-        errorHandling('Termo não encontrado.')
+    if (!definition.test(body)) {
+
+        if (!didYouMean.test(body)) {
+            errorHandling('Termo não encontrado.')
+        } else {
+        }
     }
 
     text = body.match(/="textolongo">(.*?)<\/p>/);
@@ -37,7 +41,7 @@ request('http://dicio.com.br/' + args[2], {timeout: 20000, encoding: 'binary'} ,
     echo(text[1].replace(/<br.\/>/g, '\n'));
     echo('---------------------------------------------------'.red);
 
-})
+});
 
 function errorHandling( err ) {
     if ( err ) { 
