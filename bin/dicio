@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var request = require('request')
+var args = process.argv
+
+require('shelljs/global')
+require('colors')
+
+// Init Help
+if (!args[2]) {
+    echo('\n\tUso: dicio palavra\n'.red)
+    return false
+}
+
+echo('Procurando...')
+request('http://dicio.com.br/' + args[2], {timeout: 20000, encoding: 'binary'} , function (err, response, body) {
+
+    errorHandling( err );
+
+    var re = /class="textolongo">/,
+        text, 
+        content;
+
+    if (!re.test(body)) {
+        errorHandling('Termo não encontrado.')
+    }
+
+    text = body.match(/="textolongo">(.*?)<\/p>/);
+    
+    if (!text.length) {
+        errorHandling('Termo não encontrado.')
+    }
+
+    echo('---------------------------------------------------'.red);
+    echo(text[1].replace(/<br.\/>/g, '\n'));
+    echo('---------------------------------------------------'.red);
+
+})
+
+function errorHandling( err ) {
+    if ( err ) { 
+        console.log( err );
+        throw err;
+        process.exit(0);
+    }
+}
+

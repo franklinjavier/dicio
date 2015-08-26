@@ -1,0 +1,20 @@
+{
+  "name": "dicio",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "dicio": "./bin/dicio"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Franklin Javier",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.8.1",
+    "iconv": "^2.1.10",
+    "request": "^2.53.0",
+    "shelljs": "^0.4.0"
+  }
+}
